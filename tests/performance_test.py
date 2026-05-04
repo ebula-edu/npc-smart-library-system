@@ -173,7 +173,7 @@ class PerformanceTester:
         report_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "performance_report.md")
         with open(report_path, "w") as f:
             f.write(report)
-        print(f"\nAdvanced report saved to {report_path}")
+        print(f"\nReport saved to {report_path}")
 
 if __name__ == "__main__":
     tester = PerformanceTester()
