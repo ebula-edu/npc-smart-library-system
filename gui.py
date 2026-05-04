@@ -8,7 +8,6 @@ import os
 import sys
 import ctypes
 
-# Theme Configuration
 BG_PAGE = "#F0F2F5"   
 BG_PANEL = "#FFFFFF"    
 PRIMARY_COLOR = "#6A0DAD"
@@ -24,7 +23,6 @@ FONT_FOOTER = ("Segoe UI", 9, "italic")
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
@@ -40,20 +38,17 @@ class LibraryApp:
 
         self.books = load_data()
         self.filtered_books = self.books
-        
-        # Resource Paths
+    
         self.npc_logo_path = resource_path("assets/npc-logo.webp")
         self.group_logo_path = resource_path("assets/group-one-logo.png")
         self.app_icon_path = resource_path("assets/final-logo-group-one.png")
 
-        # Set Window Icon
         self.set_app_icon()
 
         self.setup_styles()
         self.setup_ui()
 
     def set_app_icon(self):
-        # Fix for Windows Taskbar Icon
         if os.name == 'nt':
             myappid = 'npc.smartlibrary.system.v1' 
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
@@ -86,7 +81,6 @@ class LibraryApp:
                         padding=10)
 
     def setup_ui(self):
-        # --- HEADER ---
         header = tk.Frame(self.root, bg=BG_PANEL, pady=20, highlightthickness=1, highlightbackground="#DEE2E6")
         header.pack(fill="x", side="top")
 
@@ -113,7 +107,6 @@ class LibraryApp:
             group_label = tk.Label(logo_container, image=self.group_logo, bg=BG_PANEL)
             group_label.grid(row=0, column=2, rowspan=2, padx=20)
 
-        # --- MANAGEMENT ---
         input_parent = tk.LabelFrame(self.root, text=" Management", bg=BG_PANEL, font=FONT_BOLD, fg=PRIMARY_COLOR, padx=30, pady=20)
         input_parent.pack(padx=50, pady=20, fill="x")
 
@@ -131,8 +124,7 @@ class LibraryApp:
         self.create_button(btn_container, "UPDATE", self.handle_update, 1)
         self.create_button(btn_container, "DELETE", self.handle_delete, 2)
         self.create_button(btn_container, "CLEAR", self.clear_inputs, 3)
-
-        # --- SEARCH & SORT ---
+        
         search_outer = tk.Frame(self.root, bg=BG_PAGE)
         search_outer.pack(fill="x", padx=50)
 
@@ -149,7 +141,6 @@ class LibraryApp:
                                    bg="#F8F9FA", fg=TEXT_COLOR, relief="flat")
         self.search_entry.pack(side="left", padx=10, ipady=8, fill="x", expand=True)
 
-        # Sorting Dropdown
         sort_label = tk.Label(search_frame, text="Sort By:", font=FONT_BOLD, bg=BG_PANEL, fg=TEXT_COLOR)
         sort_label.pack(side="left", padx=(20, 5))
 
@@ -175,7 +166,6 @@ class LibraryApp:
                                    font=FONT_BOLD, bg=PRIMARY_COLOR, fg="white", borderwidth=0, padx=20, cursor="hand2")
         clear_search_btn.pack(side="right", padx=20, ipady=5)
 
-        # --- TABLE ---
         table_container = tk.Frame(self.root, bg=BG_PANEL, highlightthickness=1, highlightbackground="#DEE2E6")
         table_container.pack(fill="both", expand=True, padx=50, pady=(20, 10))
 
@@ -198,8 +188,7 @@ class LibraryApp:
         tree_scroll.config(command=self.tree.yview)
 
         self.tree.bind("<<TreeviewSelect>>", self.on_tree_select)
-        
-        # --- FOOTER ---
+
         footer_frame = tk.Frame(self.root, bg=BG_PAGE, pady=10)
         footer_frame.pack(side="bottom", fill="x")
         
@@ -234,10 +223,8 @@ class LibraryApp:
 
     def on_search_change(self, *args):
         query = self.search_var.get()
-        # 1. Filter
         filtered = universal_search(self.books, query)
         
-        # 2. Sort using Merge Sort
         sort_key, is_reverse = self.sort_options.get(self.sort_var.get(), ("id", False))
         self.filtered_books = merge_sort(filtered, sort_key, is_reverse)
         
