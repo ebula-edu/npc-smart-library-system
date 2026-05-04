@@ -40,7 +40,6 @@ def _merge(left, right, key, reverse):
         val_l = left[i].get(key)
         val_r = right[j].get(key)
         
-        # Case-insensitive comparison for strings
         if isinstance(val_l, str): val_l = val_l.lower()
         if isinstance(val_r, str): val_r = val_r.lower()
         
@@ -75,7 +74,6 @@ def universal_search(data, query):
     filtered_books = []
     
     for book in data:
-        # Check ID, Title, and Author
         if (query in str(book.get("id")).lower() or 
             query in str(book.get("title", "")).lower() or 
             query in str(book.get("author", "")).lower()):
