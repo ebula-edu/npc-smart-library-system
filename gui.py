@@ -8,13 +8,12 @@ import os
 import sys
 import ctypes
 
-# Theme Configuration - v1.0.2 Premium
 BG_PAGE = "#F3F4F6"   
 BG_PANEL = "#FFFFFF"    
-PRIMARY_COLOR = "#4F46E5" # Indigo
-ACCENT_COLOR = "#8B5CF6"  # Violet
-SUCCESS_COLOR = "#10B981" # Emerald
-DANGER_COLOR = "#EF4444"  # Rose
+PRIMARY_COLOR = "#4F46E5" 
+ACCENT_COLOR = "#8B5CF6" 
+SUCCESS_COLOR = "#10B981" 
+DANGER_COLOR = "#EF4444"  
 TEXT_COLOR = "#1F2937"
 HEADER_COLOR = "#111827" 
 FONT_MAIN = ("Inter", 10)
@@ -52,7 +51,6 @@ class LibraryApp:
         self.setup_ui()
 
     def set_app_icon(self):
-        # Fix for Windows Taskbar Icon
         if os.name == 'nt':
             myappid = 'npc.smartlibrary.system.v1' 
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
