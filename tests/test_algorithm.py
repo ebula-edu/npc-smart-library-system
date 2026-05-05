@@ -1,6 +1,6 @@
 import sys
 import os
-
+# Add the parent directory to the path so we can import 'algorithm'
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from algorithm import binary_search, merge_sort
@@ -29,17 +29,19 @@ def test_merge_sort():
     
     print("\nTesting Merge Sort...")
     
-
+    # Sort by ID
     sorted_id = merge_sort(data, "id")
     assert sorted_id[0]["id"] == 1
     assert sorted_id[2]["id"] == 3
     print("Sort by ID: PASSED")
-
+    
+    # Sort by Title (A-Z)
     sorted_title = merge_sort(data, "title")
     assert sorted_title[0]["title"] == "Apple"
     assert sorted_title[2]["title"] == "Zebra"
     print("Sort by Title: PASSED")
-
+    
+    # Sort by Author (Desc)
     sorted_author = merge_sort(data, "author", reverse=True)
     assert sorted_author[0]["author"] == "C"
     assert sorted_author[2]["author"] == "A"
