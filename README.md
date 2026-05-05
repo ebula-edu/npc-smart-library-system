@@ -58,8 +58,7 @@
 │── 📄 data_manager.py        
 │── 📄 gui.py                  
 │── 📄 main.py              
-│── 📄 main.spec             
-│── 📄 data.json  
+│── 📄 main.spec
 │── 📄 performance_report.md      
 │── 📄 LICENSE                      
 └── 📄 README.md 
