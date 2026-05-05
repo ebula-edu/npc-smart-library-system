@@ -16,7 +16,7 @@ class PerformanceTester:
         sys.setrecursionlimit(5000)
 
     def generate_data(self, size):
-        """Generates a list of synthetic book dictionaries matching the specific request."""
+        """Generates a list of synthetic book dictionaries matching the system data collection."""
         data = []
         for i in range(size):
             book = {
