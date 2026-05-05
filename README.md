@@ -59,7 +59,8 @@
 │── 📄 gui.py                  
 │── 📄 main.py              
 │── 📄 main.spec             
-│── 📄 data.json              
+│── 📄 data.json  
+│── 📄 performance_report.md      
 │── 📄 LICENSE                      
 └── 📄 README.md 
 ```
