@@ -2,7 +2,7 @@ from gui import LibraryApp
 import tkinter as tk
 
 def main():
-    """Main entry point for the Smart Library System."""
+    """Main entry for the Smart Library System."""
     root = tk.Tk()
     
     window_width = 800

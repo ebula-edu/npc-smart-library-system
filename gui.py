@@ -8,17 +8,20 @@ import os
 import sys
 import ctypes
 
-BG_PAGE = "#F0F2F5"   
+# Theme Configuration - v1.0.2 Premium
+BG_PAGE = "#F3F4F6"   
 BG_PANEL = "#FFFFFF"    
-PRIMARY_COLOR = "#6A0DAD"
-ACCENT_COLOR = "#9B59B6" 
-TEXT_COLOR = "#333333"
-HEADER_COLOR = "#000000" 
-FONT_MAIN = ("Segoe UI", 10)
-FONT_BOLD = ("Segoe UI", 10, "bold")
-FONT_TITLE = ("Segoe UI", 24, "bold")
-FONT_SUBTITLE = ("Segoe UI", 12)
-FONT_FOOTER = ("Segoe UI", 9, "italic")
+PRIMARY_COLOR = "#4F46E5" # Indigo
+ACCENT_COLOR = "#8B5CF6"  # Violet
+SUCCESS_COLOR = "#10B981" # Emerald
+DANGER_COLOR = "#EF4444"  # Rose
+TEXT_COLOR = "#1F2937"
+HEADER_COLOR = "#111827" 
+FONT_MAIN = ("Inter", 10)
+FONT_BOLD = ("Inter", 10, "bold")
+FONT_TITLE = ("Inter", 26, "bold")
+FONT_SUBTITLE = ("Inter", 12)
+FONT_FOOTER = ("Inter", 9, "italic")
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -38,7 +41,7 @@ class LibraryApp:
 
         self.books = load_data()
         self.filtered_books = self.books
-    
+
         self.npc_logo_path = resource_path("assets/npc-logo.webp")
         self.group_logo_path = resource_path("assets/group-one-logo.png")
         self.app_icon_path = resource_path("assets/final-logo-group-one.png")
@@ -49,6 +52,7 @@ class LibraryApp:
         self.setup_ui()
 
     def set_app_icon(self):
+        # Fix for Windows Taskbar Icon
         if os.name == 'nt':
             myappid = 'npc.smartlibrary.system.v1' 
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
@@ -81,6 +85,7 @@ class LibraryApp:
                         padding=10)
 
     def setup_ui(self):
+        # --- HEADER ---
         header = tk.Frame(self.root, bg=BG_PANEL, pady=20, highlightthickness=1, highlightbackground="#DEE2E6")
         header.pack(fill="x", side="top")
 
@@ -107,24 +112,46 @@ class LibraryApp:
             group_label = tk.Label(logo_container, image=self.group_logo, bg=BG_PANEL)
             group_label.grid(row=0, column=2, rowspan=2, padx=20)
 
-        input_parent = tk.LabelFrame(self.root, text=" Management", bg=BG_PANEL, font=FONT_BOLD, fg=PRIMARY_COLOR, padx=30, pady=20)
+        # --- MANAGEMENT ---
+        input_parent = tk.LabelFrame(self.root, text=" 📚 Book Management", bg=BG_PANEL, font=FONT_BOLD, fg=PRIMARY_COLOR, padx=30, pady=20, borderwidth=1, relief="flat")
         input_parent.pack(padx=50, pady=20, fill="x")
 
         input_grid = tk.Frame(input_parent, bg=BG_PANEL)
-        input_grid.pack()
+        input_grid.pack(fill="x")
 
-        self.create_input_field(input_grid, "Book ID:", "id_entry", 0)
-        self.create_input_field(input_grid, "Book Title:", "title_entry", 1)
-        self.create_input_field(input_grid, "Author Name:", "author_entry", 2)
+        # Two-column layout for inputs
+        left_col = tk.Frame(input_grid, bg=BG_PANEL)
+        left_col.pack(side="left", expand=True, fill="x")
+        right_col = tk.Frame(input_grid, bg=BG_PANEL)
+        right_col.pack(side="left", expand=True, fill="x")
+
+        self.create_input_field(left_col, "Book ID:", "id_entry", 0)
+        self.create_input_field(left_col, "Book Title:", "title_entry", 1)
+        self.create_input_field(left_col, "Author Name:", "author_entry", 2)
+        
+        self.create_input_field(right_col, "Location:", "location_entry", 0)
+        self.create_input_field(right_col, "Shelf/Section:", "shelf_entry", 1)
+        
+        # Availability Toggle
+        avail_frame = tk.Frame(right_col, bg=BG_PANEL)
+        avail_frame.grid(row=2, column=0, columnspan=2, sticky="w", padx=15, pady=8)
+        
+        tk.Label(avail_frame, text="Availability Status:", font=FONT_MAIN, bg=BG_PANEL, fg=TEXT_COLOR).pack(side="left")
+        self.avail_var = tk.BooleanVar(value=True)
+        self.avail_check = tk.Checkbutton(avail_frame, text="Available for Borrowing", variable=self.avail_var, 
+                                        font=FONT_MAIN, bg=BG_PANEL, activebackground=BG_PANEL, fg=SUCCESS_COLOR,
+                                        selectcolor=BG_PANEL)
+        self.avail_check.pack(side="left", padx=10)
 
         btn_container = tk.Frame(input_parent, bg=BG_PANEL, pady=15)
         btn_container.pack()
 
         self.create_button(btn_container, "ADD BOOK", self.handle_add, 0)
         self.create_button(btn_container, "UPDATE", self.handle_update, 1)
-        self.create_button(btn_container, "DELETE", self.handle_delete, 2)
-        self.create_button(btn_container, "CLEAR", self.clear_inputs, 3)
-        
+        self.create_button(btn_container, "DELETE", self.handle_delete, 2, color=DANGER_COLOR)
+        self.create_button(btn_container, "CLEAR", self.clear_inputs, 3, color="#6B7280")
+
+        # --- SEARCH & SORT ---
         search_outer = tk.Frame(self.root, bg=BG_PAGE)
         search_outer.pack(fill="x", padx=50)
 
@@ -141,6 +168,7 @@ class LibraryApp:
                                    bg="#F8F9FA", fg=TEXT_COLOR, relief="flat")
         self.search_entry.pack(side="left", padx=10, ipady=8, fill="x", expand=True)
 
+        # Sorting Dropdown
         sort_label = tk.Label(search_frame, text="Sort By:", font=FONT_BOLD, bg=BG_PANEL, fg=TEXT_COLOR)
         sort_label.pack(side="left", padx=(20, 5))
 
@@ -166,29 +194,44 @@ class LibraryApp:
                                    font=FONT_BOLD, bg=PRIMARY_COLOR, fg="white", borderwidth=0, padx=20, cursor="hand2")
         clear_search_btn.pack(side="right", padx=20, ipady=5)
 
+        # --- TABLE ---
         table_container = tk.Frame(self.root, bg=BG_PANEL, highlightthickness=1, highlightbackground="#DEE2E6")
         table_container.pack(fill="both", expand=True, padx=50, pady=(20, 10))
 
         tree_scroll = ttk.Scrollbar(table_container)
         tree_scroll.pack(side="right", fill="y")
 
-        self.tree = ttk.Treeview(table_container, columns=("ID", "Title", "Author", "Date"), show="headings", yscrollcommand=tree_scroll.set)
+        self.tree = ttk.Treeview(table_container, columns=("ID", "Title", "Author", "Location", "Shelf", "Status", "Date"), show="headings", yscrollcommand=tree_scroll.set)
         
         self.tree.heading("ID", text="ID")
         self.tree.heading("Title", text="BOOK TITLE")
         self.tree.heading("Author", text="AUTHOR")
+        self.tree.heading("Location", text="LOCATION")
+        self.tree.heading("Shelf", text="SHELF")
+        self.tree.heading("Status", text="STATUS")
         self.tree.heading("Date", text="DATE ADDED")
 
-        self.tree.column("ID", width=100, minwidth=80, stretch=True)
-        self.tree.column("Title", width=400, minwidth=200, stretch=True)
-        self.tree.column("Author", width=250, minwidth=150, stretch=True)
-        self.tree.column("Date", width=180, minwidth=120, stretch=True)
+        self.tree.column("ID", width=80, anchor="center")
+        self.tree.column("Title", width=250)
+        self.tree.column("Author", width=180)
+        self.tree.column("Location", width=120)
+        self.tree.column("Shelf", width=100)
+        self.tree.column("Status", width=100, anchor="center")
+        self.tree.column("Date", width=150)
 
         self.tree.pack(fill="both", expand=True)
         tree_scroll.config(command=self.tree.yview)
 
-        self.tree.bind("<<TreeviewSelect>>", self.on_tree_select)
+        # Status Coloring Tags
+        self.tree.tag_configure("borrowed", foreground=DANGER_COLOR)
 
+        # Empty state label
+        self.empty_label = tk.Label(self.tree, text="No books found matching your search.", 
+                                   font=FONT_SUBTITLE, bg=BG_PANEL, fg="#9CA3AF")
+        
+        self.tree.bind("<<TreeviewSelect>>", self.on_tree_select)
+        
+        # --- FOOTER ---
         footer_frame = tk.Frame(self.root, bg=BG_PAGE, pady=10)
         footer_frame.pack(side="bottom", fill="x")
         
@@ -209,22 +252,24 @@ class LibraryApp:
 
     def create_input_field(self, parent, label_text, attr_name, row):
         label = tk.Label(parent, text=label_text, font=FONT_MAIN, bg=BG_PANEL, fg=TEXT_COLOR)
-        label.grid(row=row, column=0, sticky="e", padx=15, pady=8)
+        label.grid(row=row, column=0, sticky="w", padx=15, pady=5)
         
-        entry = tk.Entry(parent, font=("Segoe UI", 11), bg="#F8F9FA", fg=TEXT_COLOR, relief="solid", borderwidth=1, width=60)
-        entry.grid(row=row, column=1, padx=15, pady=8, ipady=5)
+        entry = tk.Entry(parent, font=("Inter", 11), bg="#F9FAFB", fg=TEXT_COLOR, relief="solid", borderwidth=1, width=35)
+        entry.grid(row=row, column=1, padx=15, pady=5, ipady=8)
         setattr(self, attr_name, entry)
 
-    def create_button(self, parent, text, command, col):
+    def create_button(self, parent, text, command, col, color=PRIMARY_COLOR):
         btn = tk.Button(parent, text=text, command=command, font=FONT_BOLD,
-                       bg=PRIMARY_COLOR, fg="white", activebackground=ACCENT_COLOR, 
-                       activeforeground="white", width=18, pady=10, borderwidth=0, cursor="hand2")
-        btn.grid(row=0, column=col, padx=10)
+                       bg=color, fg="white", activebackground=ACCENT_COLOR, 
+                       activeforeground="white", width=15, pady=8, borderwidth=0, cursor="hand2")
+        btn.grid(row=0, column=col, padx=8)
 
     def on_search_change(self, *args):
         query = self.search_var.get()
+        # 1. Filter
         filtered = universal_search(self.books, query)
         
+        # 2. Sort using Merge Sort
         sort_key, is_reverse = self.sort_options.get(self.sort_var.get(), ("id", False))
         self.filtered_books = merge_sort(filtered, sort_key, is_reverse)
         
@@ -233,9 +278,33 @@ class LibraryApp:
     def refresh_display(self):
         for item in self.tree.get_children():
             self.tree.delete(item)
+            
+        if not self.filtered_books:
+            if not self.books:
+                self.empty_label.config(text="Library is empty. Add your first book above! 📚")
+            else:
+                self.empty_label.config(text="No books found matching your search. 🔍")
+            self.empty_label.place(relx=0.5, rely=0.5, anchor="center")
+        else:
+            self.empty_label.place_forget()
+            
         for book in self.filtered_books:
             date = book.get("date_added", "N/A")
-            self.tree.insert("", "end", values=(book['id'], book['title'], book['author'], date))
+            location = book.get("location", "N/A")
+            shelf = book.get("shelf", "N/A")
+            is_avail = book.get("available", True)
+            status = "Available" if is_avail else "Borrowed"
+            status_tags = ("borrowed",) if not is_avail else ()
+            
+            self.tree.insert("", "end", values=(
+                book['id'], 
+                book['title'], 
+                book['author'], 
+                location, 
+                shelf, 
+                status, 
+                date
+            ), tags=status_tags)
 
     def on_tree_select(self, event):
         selected = self.tree.selection()
@@ -246,6 +315,9 @@ class LibraryApp:
             self.id_entry.insert(0, values[0])
             self.title_entry.insert(0, values[1])
             self.author_entry.insert(0, values[2])
+            self.location_entry.insert(0, values[3])
+            self.shelf_entry.insert(0, values[4])
+            self.avail_var.set(True if values[5] == "Available" else False)
 
     def handle_add(self):
         try:
@@ -262,8 +334,20 @@ class LibraryApp:
                 messagebox.showerror("Error", f"Book ID {bid} already exists!")
                 return
 
+            location = self.location_entry.get().strip() or "Main Hall"
+            shelf = self.shelf_entry.get().strip() or "General"
+            available = self.avail_var.get()
+
             date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
-            new_book = {"id": bid, "title": title, "author": author, "date_added": date_str}
+            new_book = {
+                "id": bid, 
+                "title": title, 
+                "author": author, 
+                "location": location,
+                "shelf": shelf,
+                "available": available,
+                "date_added": date_str
+            }
             
             self.books = add_book(self.books, new_book)
             save_data(self.books)
@@ -289,6 +373,13 @@ class LibraryApp:
             updated_fields = {}
             if title: updated_fields["title"] = title
             if author: updated_fields["author"] = author
+            
+            location = self.location_entry.get().strip()
+            shelf = self.shelf_entry.get().strip()
+            
+            if location: updated_fields["location"] = location
+            if shelf: updated_fields["shelf"] = shelf
+            updated_fields["available"] = self.avail_var.get()
 
             self.books = update_book(self.books, bid, updated_fields)
             save_data(self.books)
@@ -319,6 +410,9 @@ class LibraryApp:
         self.id_entry.delete(0, tk.END)
         self.title_entry.delete(0, tk.END)
         self.author_entry.delete(0, tk.END)
+        self.location_entry.delete(0, tk.END)
+        self.shelf_entry.delete(0, tk.END)
+        self.avail_var.set(True)
 
 if __name__ == "__main__":
     root = tk.Tk()

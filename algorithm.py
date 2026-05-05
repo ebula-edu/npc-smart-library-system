@@ -1,3 +1,8 @@
+import sys
+
+# Performance: Increase recursion depth for extreme dataset sizes
+sys.setrecursionlimit(2000000)
+
 def binary_search(data, target_id):
     """
     Perform binary search on a list of dictionaries sorted by 'id'.
@@ -22,6 +27,7 @@ def binary_search(data, target_id):
 def merge_sort(data, key, reverse=False):
     """
     Perform Merge Sort (O(n log n)) on a list of dictionaries.
+    Uses Python's efficient list slicing and recursion.
     """
     if len(data) <= 1:
         return data
@@ -33,15 +39,19 @@ def merge_sort(data, key, reverse=False):
     return _merge(left, right, key, reverse)
 
 def _merge(left, right, key, reverse):
+    """Internal helper to merge two sorted lists."""
     result = []
     i = j = 0
     
     while i < len(left) and j < len(right):
-        val_l = left[i].get(key)
-        val_r = right[j].get(key)
+        val_l = left[i].get(key, "")
+        val_r = right[j].get(key, "")
         
-        if isinstance(val_l, str): val_l = val_l.lower()
-        if isinstance(val_r, str): val_r = val_r.lower()
+        # Case-insensitive comparison for strings
+        if isinstance(val_l, str): 
+            val_l = val_l.lower()
+        if isinstance(val_r, str): 
+            val_r = val_r.lower()
         
         if not reverse:
             if val_l <= val_r:
@@ -64,19 +74,24 @@ def _merge(left, right, key, reverse):
 
 def universal_search(data, query):
     """
-    Filter data based on query matching ID, Title, or Author.
+    High-performance filter matching ID, Title, Author, Location, or Shelf.
     Returns a filtered list of books.
     """
     if not query:
         return data
         
     query = str(query).lower()
-    filtered_books = []
     
-    for book in data:
-        if (query in str(book.get("id")).lower() or 
-            query in str(book.get("title", "")).lower() or 
-            query in str(book.get("author", "")).lower()):
-            filtered_books.append(book)
-            
-    return filtered_books
+    # Performance Optimization: Single pass search using joined string representation
+    def matches(book):
+        # Concatenate searchable fields for a single 'in' check
+        searchable_content = (
+            f"{book.get('id')} "
+            f"{book.get('title', '')} "
+            f"{book.get('author', '')} "
+            f"{book.get('location', '')} "
+            f"{book.get('shelf', '')}"
+        ).lower()
+        return query in searchable_content
+
+    return [book for book in data if matches(book)]
