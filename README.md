@@ -10,8 +10,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ebula-edu/npc-smart-library-system/releases/tag/v1.0.0">
-    <img src="https://img.shields.io/badge/Download-v1.0.0-8A2BE2?style=for-the-badge&logo=github" />
+  <a href="https://github.com/ebula-edu/npc-smart-library-system/releases/tag/v1.0.2">
+    <img src="https://img.shields.io/badge/Download-v1.0.2-8A2BE2?style=for-the-badge&logo=github" />
   </a>
 </p>
 
@@ -26,11 +26,14 @@
 - **🔄 Dynamic Sorting**  
   Uses **Merge Sort** (<code>O(n log n)</code>) to organize books by Title, Author, or Date Added.
 
-- **🛠 Full CRUD Support**  
-  Easily Add, Update, Read, and Delete records.
+- **📍 Location & Shelf Tracking**  
+  New in v1.0.2! Assign and track books by specific **Wing** and **Shelf/Section**.
 
-- **💾 Persistent Storage**  
-  Data is securely stored in a local <code>data.json</code> database.
+- **🔴 Color-Coded Status**  
+  Instant scanability with **Red highlighting** for Borrowed books.
+
+- **🛠 Full CRUD Support**  
+  Easily Add, Update, Read, and Delete records with real-time JSON persistence.
 
 - **🎨 Custom Branding**  
   Academic-themed GUI with NPC and Group 1 logos and a custom taskbar icon.
@@ -52,43 +55,31 @@
 ```
 📁 npc-smart-library-system
 │── 📁 assets/
-│── 📁 docs/             
-│── 📁 tests/                           
-│── 📄 algorithm.py           
-│── 📄 data_manager.py        
-│── 📄 gui.py                  
-│── 📄 main.py              
-│── 📄 LICENSE                      
-└── 📄 README.md 
+│── 📁 docs/
+│── 📁 tests/
+│── 📄 algorithm.py
+│── 📄 data_manager.py
+│── 📄 gui.py
+│── 📄 main.py
+│── 📄 LICENSE
+└── 📄 README.md
 ```
 
 ---
 
-## Screenshot
+## 📸 Screenshots
 
-### Dashboard Screenshot
+### Dashboard
+<img width="1920" height="1080" alt="Dashboard" src="https://github.com/user-attachments/assets/b821de45-bf49-4269-9f0b-5e1a5900ccd6" />
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b821de45-bf49-4269-9f0b-5e1a5900ccd6" />
+### Book Search
+<img width="1920" height="1080" alt="Search" src="https://github.com/user-attachments/assets/50adf5c2-7080-4e83-9ef4-d90d8af2609c" />
 
-### Search Screenshot
+### Book Management
+<img width="1920" height="1080" alt="Management" src="https://github.com/user-attachments/assets/7cad3f68-4a36-4792-a8bd-508511e53f2f" />
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/50adf5c2-7080-4e83-9ef4-d90d8af2609c" />
-
-### Add Screenshot
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7cad3f68-4a36-4792-a8bd-508511e53f2f" />
-
-### Delete Screenshot
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/74761c1e-9b82-4ca9-8c3b-964d629c82a1" />
-
-### Update Screenshot
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/263a76fd-8fa9-4039-930d-1c9709df844b" />
-
-### Status Screenshot
-
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9db5ca9e-378b-43aa-b894-74a48372b796" />
+### Color-Coded Status
+<img width="1920" height="1080" alt="Status" src="https://github.com/user-attachments/assets/9db5ca9e-378b-43aa-b894-74a48372b796" />
 
 ---
 
@@ -99,7 +90,3 @@
   <br>
   <i>Group 1 • Byte Me Maybe</i>
 </p>
-
-
-
-
