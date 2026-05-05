@@ -1,6 +1,5 @@
 import sys
 
-# Performance: Increase recursion depth for extreme dataset sizes
 sys.setrecursionlimit(2000000)
 
 def binary_search(data, target_id):
@@ -47,7 +46,6 @@ def _merge(left, right, key, reverse):
         val_l = left[i].get(key, "")
         val_r = right[j].get(key, "")
         
-        # Case-insensitive comparison for strings
         if isinstance(val_l, str): 
             val_l = val_l.lower()
         if isinstance(val_r, str): 
@@ -81,10 +79,8 @@ def universal_search(data, query):
         return data
         
     query = str(query).lower()
-    
-    # Performance Optimization: Single pass search using joined string representation
+
     def matches(book):
-        # Concatenate searchable fields for a single 'in' check
         searchable_content = (
             f"{book.get('id')} "
             f"{book.get('title', '')} "
