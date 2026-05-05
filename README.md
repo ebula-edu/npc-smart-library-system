@@ -51,15 +51,15 @@
 ## 📂 Project Structure
 ```
 📁 npc-smart-library-system
-│── 📁 assets/                
+│── 📁 assets/
+│── 📁 docs/             
 │── 📁 tests/                 
 │── 📄 .gitignore              
 │── 📄 algorithm.py           
 │── 📄 data_manager.py        
 │── 📄 gui.py                  
 │── 📄 main.py              
-│── 📄 main.spec
-│── 📄 performance_report.md      
+│── 📄 main.spec   
 │── 📄 LICENSE                      
 └── 📄 README.md 
 ```
