@@ -53,13 +53,11 @@
 📁 npc-smart-library-system
 │── 📁 assets/
 │── 📁 docs/             
-│── 📁 tests/                 
-│── 📄 .gitignore              
+│── 📁 tests/                           
 │── 📄 algorithm.py           
 │── 📄 data_manager.py        
 │── 📄 gui.py                  
 │── 📄 main.py              
-│── 📄 main.spec   
 │── 📄 LICENSE                      
 └── 📄 README.md 
 ```
