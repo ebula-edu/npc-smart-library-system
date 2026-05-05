@@ -68,23 +68,27 @@
 
 ### Dashboard Screenshot
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/fa1e6bf3-729d-4d21-bc95-7875b54bf257" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/b821de45-bf49-4269-9f0b-5e1a5900ccd6" />
 
 ### Search Screenshot
 
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/a40aad83-0734-4f1b-b640-c7038fd9c30c" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/50adf5c2-7080-4e83-9ef4-d90d8af2609c" />
 
 ### Add Screenshot
-<img width="1364" height="768" alt="image" src="https://github.com/user-attachments/assets/1e48e373-f3dd-4c02-9c30-307a1de67f2e" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7cad3f68-4a36-4792-a8bd-508511e53f2f" />
 
 ### Delete Screenshot
 
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/9b7eecac-d085-4a27-b89d-fcb02a30c311" />
-
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/74761c1e-9b82-4ca9-8c3b-964d629c82a1" />
 
 ### Update Screenshot
 
-<img width="1365" height="768" alt="image" src="https://github.com/user-attachments/assets/9fc21590-b0d2-494f-90cb-286c419b1a72" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/263a76fd-8fa9-4039-930d-1c9709df844b" />
+
+### Status Screenshot
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9db5ca9e-378b-43aa-b894-74a48372b796" />
 
 ---
 
