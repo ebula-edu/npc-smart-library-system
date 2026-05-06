@@ -81,6 +81,9 @@
 ### Color-Coded Status
 <img width="1920" height="1080" alt="Status" src="https://github.com/user-attachments/assets/9db5ca9e-378b-43aa-b894-74a48372b796" />
 
+## 💻 System Demo
+[NPC Smart Library System](https://github.com/user-attachments/assets/d2b34b2d-fbd6-424f-8a91-1be142af424a)
+
 ---
 
 <p align="center">
