@@ -25,9 +25,6 @@
 - **⚡ Fast Search**  
   Powered by **Binary Search** (<code>O(log n)</code>) for rapid book retrieval by ID.
 
-- **🔄 Dynamic Sorting**  
-  Uses **Merge Sort** (<code>O(n log n)</code>) to organize books by Title, Author, or Date Added.
-
 - **📍 Location & Shelf Tracking**  
   New in v1.0.2! Assign and track books by specific **Wing** and **Shelf/Section**.
 
