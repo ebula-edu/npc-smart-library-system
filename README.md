@@ -13,8 +13,10 @@
   <a href="https://github.com/ebula-edu/npc-smart-library-system/releases/tag/v1.0.2">
     <img src="https://img.shields.io/badge/Download-v1.0.2-8A2BE2?style=for-the-badge&logo=github" />
   </a>
+   <a href="https://github.com/ebula-edu/npc-smart-library-system/blob/main/docs/performance_report.md">
+   <img src="https://img.shields.io/badge/Performance-testing-2563EB?style=for-the-badge&logo=speedtest" />
+  </a>
 </p>
-
 
 ---
 
