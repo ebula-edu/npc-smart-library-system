@@ -2,20 +2,21 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from PIL import Image, ImageTk
 from data_manager import load_data, save_data, add_book, update_book, delete_book
-from algorithm import binary_search, universal_search, merge_sort
+from algorithm import binary_search, universal_search
 from datetime import datetime
 import os
 import sys
 import ctypes
 
-BG_PAGE = "#F3F4F6"   
-BG_PANEL = "#FFFFFF"    
-PRIMARY_COLOR = "#4F46E5" 
-ACCENT_COLOR = "#8B5CF6" 
-SUCCESS_COLOR = "#10B981" 
-DANGER_COLOR = "#EF4444"  
+BG_PAGE = "#F3F4F6"
+BG_PANEL = "#FFFFFF"
+PRIMARY_COLOR = "#4F46E5"
+ACCENT_COLOR = "#8B5CF6"
+SUCCESS_COLOR = "#10B981"
+DANGER_COLOR = "#EF4444"
 TEXT_COLOR = "#1F2937"
-HEADER_COLOR = "#111827" 
+HEADER_COLOR = "#111827"
+
 FONT_MAIN = ("Inter", 10)
 FONT_BOLD = ("Inter", 10, "bold")
 FONT_TITLE = ("Inter", 26, "bold")
@@ -23,7 +24,6 @@ FONT_SUBTITLE = ("Inter", 12)
 FONT_FOOTER = ("Inter", 9, "italic")
 
 def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
         base_path = sys._MEIPASS
     except Exception:
@@ -46,7 +46,6 @@ class LibraryApp:
         self.app_icon_path = resource_path("assets/final-logo-group-one.png")
 
         self.set_app_icon()
-
         self.setup_styles()
         self.setup_ui()
 
@@ -60,8 +59,7 @@ class LibraryApp:
                 icon_img = Image.open(self.app_icon_path)
                 self.icon_photo = ImageTk.PhotoImage(icon_img)
                 self.root.iconphoto(True, self.icon_photo)
-            except Exception as e:
-                print(f"Icon error: {e}")
+            except: pass
 
     def setup_styles(self):
         style = ttk.Style()
@@ -83,7 +81,6 @@ class LibraryApp:
                         padding=10)
 
     def setup_ui(self):
-        # --- HEADER ---
         header = tk.Frame(self.root, bg=BG_PANEL, pady=20, highlightthickness=1, highlightbackground="#DEE2E6")
         header.pack(fill="x", side="top")
 
@@ -110,14 +107,12 @@ class LibraryApp:
             group_label = tk.Label(logo_container, image=self.group_logo, bg=BG_PANEL)
             group_label.grid(row=0, column=2, rowspan=2, padx=20)
 
-        # --- MANAGEMENT ---
         input_parent = tk.LabelFrame(self.root, text=" 📚 Book Management", bg=BG_PANEL, font=FONT_BOLD, fg=PRIMARY_COLOR, padx=30, pady=20, borderwidth=1, relief="flat")
         input_parent.pack(padx=50, pady=20, fill="x")
 
         input_grid = tk.Frame(input_parent, bg=BG_PANEL)
         input_grid.pack(fill="x")
 
-        # Two-column layout for inputs
         left_col = tk.Frame(input_grid, bg=BG_PANEL)
         left_col.pack(side="left", expand=True, fill="x")
         right_col = tk.Frame(input_grid, bg=BG_PANEL)
@@ -130,7 +125,6 @@ class LibraryApp:
         self.create_input_field(right_col, "Location:", "location_entry", 0)
         self.create_input_field(right_col, "Shelf/Section:", "shelf_entry", 1)
         
-        # Availability Toggle
         avail_frame = tk.Frame(right_col, bg=BG_PANEL)
         avail_frame.grid(row=2, column=0, columnspan=2, sticky="w", padx=15, pady=8)
         
@@ -149,7 +143,6 @@ class LibraryApp:
         self.create_button(btn_container, "DELETE", self.handle_delete, 2, color=DANGER_COLOR)
         self.create_button(btn_container, "CLEAR", self.clear_inputs, 3, color="#6B7280")
 
-        # --- SEARCH & SORT ---
         search_outer = tk.Frame(self.root, bg=BG_PAGE)
         search_outer.pack(fill="x", padx=50)
 
@@ -166,7 +159,6 @@ class LibraryApp:
                                    bg="#F8F9FA", fg=TEXT_COLOR, relief="flat")
         self.search_entry.pack(side="left", padx=10, ipady=8, fill="x", expand=True)
 
-        # Sorting Dropdown
         sort_label = tk.Label(search_frame, text="Sort By:", font=FONT_BOLD, bg=BG_PANEL, fg=TEXT_COLOR)
         sort_label.pack(side="left", padx=(20, 5))
 
@@ -175,11 +167,7 @@ class LibraryApp:
             "ID (Asc)": ("id", False),
             "ID (Desc)": ("id", True),
             "Title (A-Z)": ("title", False),
-            "Title (Z-A)": ("title", True),
-            "Author (A-Z)": ("author", False),
-            "Author (Z-A)": ("author", True),
-            "Date (Newest)": ("date_added", True),
-            "Date (Oldest)": ("date_added", False)
+            "Title (Z-A)": ("title", True)
         }
         
         self.sort_combo = ttk.Combobox(search_frame, textvariable=self.sort_var, 
@@ -192,7 +180,6 @@ class LibraryApp:
                                    font=FONT_BOLD, bg=PRIMARY_COLOR, fg="white", borderwidth=0, padx=20, cursor="hand2")
         clear_search_btn.pack(side="right", padx=20, ipady=5)
 
-        # --- TABLE ---
         table_container = tk.Frame(self.root, bg=BG_PANEL, highlightthickness=1, highlightbackground="#DEE2E6")
         table_container.pack(fill="both", expand=True, padx=50, pady=(20, 10))
 
@@ -220,16 +207,13 @@ class LibraryApp:
         self.tree.pack(fill="both", expand=True)
         tree_scroll.config(command=self.tree.yview)
 
-        # Status Coloring Tags
         self.tree.tag_configure("borrowed", foreground=DANGER_COLOR)
 
-        # Empty state label
         self.empty_label = tk.Label(self.tree, text="No books found matching your search.", 
                                    font=FONT_SUBTITLE, bg=BG_PANEL, fg="#9CA3AF")
         
         self.tree.bind("<<TreeviewSelect>>", self.on_tree_select)
         
-        # --- FOOTER ---
         footer_frame = tk.Frame(self.root, bg=BG_PAGE, pady=10)
         footer_frame.pack(side="bottom", fill="x")
         
@@ -264,12 +248,12 @@ class LibraryApp:
 
     def on_search_change(self, *args):
         query = self.search_var.get()
-        # 1. Filter
         filtered = universal_search(self.books, query)
-        
-        # 2. Sort using Merge Sort
         sort_key, is_reverse = self.sort_options.get(self.sort_var.get(), ("id", False))
-        self.filtered_books = merge_sort(filtered, sort_key, is_reverse)
+        
+        self.filtered_books = sorted(filtered, 
+                                    key=lambda x: str(x.get(sort_key, "")).lower() if isinstance(x.get(sort_key), str) else x.get(sort_key, 0), 
+                                    reverse=is_reverse)
         
         self.refresh_display()
 
@@ -324,7 +308,7 @@ class LibraryApp:
             author = self.author_entry.get().strip()
 
             if not bid_str or not title or not author:
-                messagebox.showwarning("Warning", "Fill in all fields!")
+                messagebox.showwarning("Warning", "Fill in all required fields!")
                 return
             
             bid = int(bid_str)
@@ -353,7 +337,7 @@ class LibraryApp:
             self.clear_inputs()
             messagebox.showinfo("Success", "Book added to system database.")
         except ValueError:
-            messagebox.showerror("Error", "ID must be numeric!")
+            messagebox.showerror("Error", "ID must be a numeric value!")
 
     def handle_update(self):
         try:
