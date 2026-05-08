@@ -23,13 +23,13 @@
 ## 🚀 Key Features
 
 - **⚡ Fast Search**  
-  Powered by **Binary Search** (<code>O(log n)</code>) for rapid book retrieval by ID.
+  Powered by **Binary Search** <code>O(log n)</code> for rapid book retrieval by ID.
 
 - **📍 Location & Shelf Tracking**  
-  New in v1.0.2! Assign and track books by specific **Wing** and **Shelf/Section**.
+  New in v1.0.2! Assign and track books by specific **Location** and **Shelf/Section**.
 
 - **🔴 Color-Coded Status**  
-  Instant scanability with **Red highlighting** for Borrowed books.
+  Instant scanability with **Red highlighting** for Borrowed or Unavailable books.
 
 - **🛠 Full CRUD Support**  
   Easily Add, Update, Read, and Delete records with real-time JSON persistence.
