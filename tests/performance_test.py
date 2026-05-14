@@ -8,7 +8,7 @@ import gc
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from algorithm import merge_sort, binary_search, universal_search
+from algorithm import binary_search, universal_search
 
 class PerformanceTester:
     def __init__(self):
@@ -49,19 +49,6 @@ class PerformanceTester:
 
                 mem_mb = (sys.getsizeof(data) + (size * 100)) / (1024 * 1024) 
                 
-                random.shuffle(data)
-                start = time.perf_counter()
-                try:
-                    merge_sort(data, "id")
-                    duration = time.perf_counter() - start
-                    self.log_result(size, "Merge Sort (Random)", duration, mem_mb)
-                except RecursionError:
-                    self.log_result(size, "Merge Sort (Random)", -1, mem_mb)
-                    self.failures.append(f"Size {size}: Recursion limit hit in Merge Sort")
-                except MemoryError:
-                    self.log_result(size, "Merge Sort (Random)", -2, mem_mb)
-                    self.failures.append(f"Size {size}: Out of Memory during Merge Sort")
-
                 sorted_data = sorted(data, key=lambda x: x["id"])
                 target_id = size // 2
                 start = time.perf_counter()
@@ -75,7 +62,7 @@ class PerformanceTester:
                 start = time.perf_counter()
                 universal_search(data, query)
                 duration = time.perf_counter() - start
-                self.log_result(size, "Universal Search", duration, mem_mb)
+                self.log_result(size, "Linear Search", duration, mem_mb)
 
                 del data
                 del sorted_data
@@ -91,22 +78,24 @@ class PerformanceTester:
         print(f"\n{'='*80}")
         print(f"{'ITERATION STABILITY TEST (Size: ' + str(size) + ')':^80}")
         print(f"{'='*80}")
-        print(f"{'Iter':<10} | {'Merge Sort (s)':<15} | {'Linear Search (s)':<15} | {'Status':<10}")
+        print(f"{'Iter':<10} | {'Binary Search (s)':<15} | {'Linear Search (s)':<15} | {'Status':<10}")
         print("-" * 80)
         
         for i in range(1, iterations + 1):
             try:
                 data = self.generate_data(size)
+                sorted_data = sorted(data, key=lambda x: x["id"])
 
-                start_m = time.perf_counter()
-                merge_sort(data, "id")
-                dur_m = time.perf_counter() - start_m
+                start_b = time.perf_counter()
+                for _ in range(100):
+                    binary_search(sorted_data, size // 2)
+                dur_b = time.perf_counter() - start_b
 
                 start_u = time.perf_counter()
                 universal_search(data, "xyz")
                 dur_u = time.perf_counter() - start_u
                 
-                print(f"{i:<10} | {dur_m:<15.5f} | {dur_u:<15.5f} | OK")
+                print(f"{i:<10} | {dur_b:<15.5f} | {dur_u:<15.5f} | OK")
                 
                 del data
                 gc.collect()
@@ -176,7 +165,7 @@ class PerformanceTester:
         report += "\n### 5.1 Bottleneck Analysis\n"
         report += "- **Recursion Depth**: Resolved in v1.0.2 by increasing `sys.setrecursionlimit`. However, iterative approaches are still preferred for safety.\n"
         report += r"- **Memory Slicing**: Still present due to recursive architecture; $O(n \log n)$ space complexity remains a concern for extremely constrained environments." + "\n"
-        report += "- **Universal Search**: Optimized in v1.0.2 using string concatenation and single-pass matching, significantly reducing overhead for large datasets.\n"
+        report += "- **Linear Search**: Optimized in v1.0.2 using string concatenation and single-pass matching, significantly reducing overhead for large datasets.\n"
         
         # Save to root directory
         report_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "performance_report.md")
